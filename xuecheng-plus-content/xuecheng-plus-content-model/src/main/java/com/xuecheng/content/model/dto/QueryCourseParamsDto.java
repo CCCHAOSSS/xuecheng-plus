@@ -17,7 +17,7 @@ public class QueryCourseParamsDto {
      * 根据接口文档设计
      * */
     //审核状态
-    private String autitStatus;
+    private String auditStatus;
 
     //课程名称
     private  String courseName;
