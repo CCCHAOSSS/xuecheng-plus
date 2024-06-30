@@ -37,7 +37,7 @@ public class CourseBaseInfoServiceTests {
         //查询条件
         QueryCourseParamsDto courseParamsDto = new QueryCourseParamsDto();
         courseParamsDto.setCourseName("Spring");  //查询的课程名称（假定为java
-        courseParamsDto.setPublishStatus("002001");
+        courseParamsDto.setPublishStatus("203001");
 
         //分页参数对象
         PageParams pageParams = new PageParams();
@@ -46,6 +46,6 @@ public class CourseBaseInfoServiceTests {
 
         PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseList(pageParams, courseParamsDto);
 
-//        System.out.println(courseBasePageResult);
+        System.out.println(courseBasePageResult);
     }
 }
