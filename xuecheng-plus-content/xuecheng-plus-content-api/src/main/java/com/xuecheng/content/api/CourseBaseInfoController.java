@@ -22,7 +22,7 @@ import java.util.List;
  * @description 响应、编辑课程信息接口,查询、响应结果都为json格式
  */
 
-@Api(value = "课程信息管理接口")
+@Api(value = "课程信息管理接口", tags = "课程信息管理接口")
 @RestController //相当于 controller和responseBody的整合
 public class CourseBaseInfoController {
 
@@ -33,7 +33,6 @@ public class CourseBaseInfoController {
     @PostMapping("/course/list")
     public PageResult<CourseBase> list(PageParams pageParams, @RequestBody(required = false) QueryCourseParamsDto queryCourseParamsDto){
         // QueryCourseParamsDto通过json格式传入，通过注解转成Dto对象
-
         PageResult<CourseBase> pageResult = courseBaseInfoService.queryCourseBaseList(pageParams, queryCourseParamsDto);
         return pageResult;
 

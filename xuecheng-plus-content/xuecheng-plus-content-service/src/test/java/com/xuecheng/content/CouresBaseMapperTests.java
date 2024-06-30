@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author limei
  * @date 2024/3/20 13:35
- * @description TODO
+ * @description
  */
 
 @SpringBootTest
@@ -57,7 +57,7 @@ public class CouresBaseMapperTests {
         //根据课程审核状态查询
         queryWrapper.eq(StringUtils.isNotEmpty(courseParamsDto.getAuditStatus()), CourseBase::getAuditStatus, courseParamsDto.getAuditStatus());
 
-        //TODO: 根据课程发布状态查询
+        //
         queryWrapper.eq(StringUtils.isNotEmpty(courseParamsDto.getPublishStatus()), CourseBase::getStatus, courseParamsDto.getPublishStatus());
 
          //创建分页参数对象*/
