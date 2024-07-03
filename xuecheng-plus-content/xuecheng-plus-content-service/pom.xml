@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>xuecheng-plus-content-service</artifactId>
-    <description>xuecheng-plus-content-service</description>
 
     <dependencies>
         <dependency>
