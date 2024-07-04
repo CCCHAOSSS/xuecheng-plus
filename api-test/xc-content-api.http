@@ -11,4 +11,33 @@ Content-Type: application/json
 ### 课程分类
 GET {{content_host}}/content/course-category/tree-nodes
 
+### 新增课程
+ POST {{content_host}}/content/course
+Content-Type: application/json
+
+{
+  "charge": "201001",
+  "price": 10,
+  "originalPrice":100,
+  "qq": "22333",
+  "wechat": "223344",
+  "phone": "13333333",
+  "validDays": 365,
+  "mt": "1-1",
+  "st": "1-1-1",
+  "name": "java网络编程",
+  "pic": "fdsf",
+  "teachmode": "200002",
+  "users": "初级人员",
+  "tags": "tagstagstags",
+  "grade": "204001",
+  "description": "java网络编程高级java网络编程高级java网络编程高级"
+}
+
+### 查询课程
+GET {{content_host}}/content/course/40
+Content-Type: application/json
+
+### 课程计划查询
+GET {{content_host}}/content/teachplan/117/tree-nodes
 
