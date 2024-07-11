@@ -21,4 +21,14 @@ public interface TeachplanService {
      * 新增、修改课程计划
      * */
     public void saveTeachplan(SaveTeachplanDto saveTeachplanDto);
+
+    /**
+     * 删除课程计划
+     * */
+    void deleteTeachplan(Long teachplanId);
+
+    /**
+     * 移动课程计划
+     * */
+    void orderByTeachplan(String moveType, Long teachplanId);
 }
