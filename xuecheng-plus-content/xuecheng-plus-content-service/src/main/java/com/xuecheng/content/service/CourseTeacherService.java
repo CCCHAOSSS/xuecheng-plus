@@ -13,4 +13,6 @@ public interface CourseTeacherService {
     List<CourseTeacher> getCourseTeacherList(Long courseId);
 
     CourseTeacher saveCourseTeacher(CourseTeacher courseTeacher);
+
+    void deleteCourseTeacher(Long courseId, Long teacherId);
 }

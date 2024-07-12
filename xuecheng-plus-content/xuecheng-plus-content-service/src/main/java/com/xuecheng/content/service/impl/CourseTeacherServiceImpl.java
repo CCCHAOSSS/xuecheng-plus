@@ -2,6 +2,7 @@ package com.xuecheng.content.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xuecheng.base.exception.XueChengPlusException;
+import com.xuecheng.content.mapper.CourseBaseMapper;
 import com.xuecheng.content.mapper.CourseTeacherMapper;
 import com.xuecheng.content.model.po.CourseTeacher;
 import com.xuecheng.content.service.CourseTeacherService;
@@ -24,6 +25,8 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
 
     @Autowired
     private CourseTeacherMapper courseTeacherMapper;
+
+    private CourseBaseMapper courseBaseMapper;
 
 
     /**
@@ -68,6 +71,24 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
             }
             return getCourseTeacher(courseTeacher);
         }
+    }
+
+    /**
+     * 删除教师信息
+     * */
+    @Override
+    public void deleteCourseTeacher(Long courseId, Long teacherId) {
+        if (courseId == null || teacherId == null){
+            XueChengPlusException.cast("课程id和教师id不能为空");
+        }
+        LambdaQueryWrapper<CourseTeacher> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CourseTeacher::getCourseId,courseId)
+                .eq(CourseTeacher::getId,teacherId);
+        int flag = courseTeacherMapper.delete(wrapper);
+        if(flag < 0){
+            XueChengPlusException.cast("删除失败");
+        }
+
     }
 
     public CourseTeacher getCourseTeacher(CourseTeacher courseTeacher) {
