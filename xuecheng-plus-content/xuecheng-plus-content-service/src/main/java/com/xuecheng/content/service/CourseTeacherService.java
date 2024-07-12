@@ -10,5 +10,6 @@ import java.util.List;
  * @description 教师管理接口
  */
 public interface CourseTeacherService {
-    List<CourseTeacher> getCourseTeacher(Long courseId);
+    List<CourseTeacher> getCourseTeacherList(Long courseId);
+
 }

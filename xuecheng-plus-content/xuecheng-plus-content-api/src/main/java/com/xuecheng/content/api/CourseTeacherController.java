@@ -30,8 +30,8 @@ public class CourseTeacherController {
      * */
     @ApiOperation("教师信息查询接口")
     @GetMapping("/courseTeacher/list/{courseId}")
-    public List<CourseTeacher> getCourseTeacher(@PathVariable Long courseId){
-        return courseTeacherService.getCourseTeacher(courseId);
+    public List<CourseTeacher> getCourseTeacherList(@PathVariable Long courseId){
+        return courseTeacherService.getCourseTeacherList(courseId);
     }
 
 }
