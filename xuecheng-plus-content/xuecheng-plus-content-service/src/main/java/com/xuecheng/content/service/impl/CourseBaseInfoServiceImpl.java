@@ -47,6 +47,8 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     @Autowired
     TeachplanMapper teachplanMapper;
 
+    private String uk;
+
     @Override
     public PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto courseParamsDto) {
 

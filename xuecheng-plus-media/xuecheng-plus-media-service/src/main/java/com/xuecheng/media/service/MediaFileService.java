@@ -2,10 +2,12 @@ package com.xuecheng.media.service;
 
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
+import com.xuecheng.base.model.RestResponse;
 import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @description 媒资文件管理业务类
@@ -43,4 +45,21 @@ public interface MediaFileService {
      */
     public MediaFiles addMediaFilesToDb(Long companyId, String fileMd5, UploadFileParamsDto uploadFileParamsDto, String bucket, String objectName);
 
+    /**
+     * 检查分块是否存在
+     * */
+    public RestResponse<Boolean> checkFile(String fileMd5);
+
+    /**
+     * 分块文件上传前检查
+     * */
+    public RestResponse<Boolean> checkChunk(@RequestParam("fileMd5") String fileMd5,
+                                            @RequestParam("chunk") int chunkIndex) throws Exception;
+
+    /**
+     * 上传分块
+     * */
+    public RestResponse uploadChunk(String fileMd5, int chunk, String localChunkPath);
+
 }
+

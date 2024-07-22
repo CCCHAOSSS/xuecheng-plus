@@ -1,8 +1,14 @@
 package com.xuecheng.media;
 
-import io.minio.MinioClient;
-import io.minio.UploadObjectArgs;
+import io.minio.*;
+import io.minio.messages.DeleteError;
+import io.minio.messages.DeleteObject;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author limei
@@ -34,5 +40,62 @@ public class MinioTest {
         }
 
     }
+
+    @Test
+    public void uploadchunk() {
+        String chunkFolderPath = "D://xczx//upload//chunk";
+        File chunkFolder = new File(chunkFolderPath);
+        //分块文件
+        File[] files = chunkFolder.listFiles();
+        //将分块文件上传到minio
+        for(int i=0; i<files.length; i++){
+            try {
+                UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
+                        .bucket("testbucket")
+                        .object("chunk/" + i)
+                        .filename(files[i].getAbsolutePath()).build();
+                System.out.println("分块上传成功：" + i);
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Test
+    public void test_merge() throws Exception {
+        List<ComposeSource> sources = Stream.iterate(0, i -> ++i)
+                .limit(6)
+                .map(i -> ComposeSource.builder()
+                        .bucket("testbucket")
+                        .object("chunk/".concat(Integer.toString(i)))
+                        .build())
+                .collect(Collectors.toList());
+
+        ComposeObjectArgs composeObjectArgs = ComposeObjectArgs.builder().bucket("testbucket").object("merge01.mp4").sources(sources).build();
+        minioClient.composeObject(composeObjectArgs);
+
+    }
+    //清除分块文件
+    @Test
+    public void test_removeObjects(){
+        //合并分块完成将分块文件清除
+        List<DeleteObject> deleteObjects = Stream.iterate(0, i -> ++i)
+                .limit(6)
+                .map(i -> new DeleteObject("chunk/".concat(Integer.toString(i))))
+                .collect(Collectors.toList());
+
+        RemoveObjectsArgs removeObjectsArgs = RemoveObjectsArgs.builder().bucket("testbucket").objects(deleteObjects).build();
+        Iterable<Result<DeleteError>> results = minioClient.removeObjects(removeObjectsArgs);
+        results.forEach(r->{
+            DeleteError deleteError = null;
+            try {
+                deleteError = r.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 
 }

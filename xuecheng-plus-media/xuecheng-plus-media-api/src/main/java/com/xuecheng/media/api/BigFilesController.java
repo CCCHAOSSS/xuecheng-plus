@@ -1,12 +1,16 @@
 package com.xuecheng.media.api;
 
 import com.xuecheng.base.model.RestResponse;
+import com.xuecheng.media.service.MediaFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 /**
  * @author limei
@@ -18,17 +22,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class BigFilesController {
 
+    @Autowired
+    MediaFileService mediaFileService;
+
     @ApiOperation("文件上传前检查文件")
     @PostMapping("/upload/checkfile")
     public RestResponse<Boolean> checkFile(@RequestParam("fileMd5") String fileMd5){
-        return RestResponse.success(true);
+        return mediaFileService.checkFile(fileMd5);
     }
 
     @ApiOperation(value = "分块文件上传前的检测")
     @PostMapping("/upload/checkchunk")
     public RestResponse<Boolean> checkchunk(@RequestParam("fileMd5") String fileMd5,
                                             @RequestParam("chunk") int chunk) throws Exception {
-        return null;
+        return mediaFileService.checkChunk(fileMd5,chunk);
     }
 
     @ApiOperation(value = "上传分块文件")
@@ -36,8 +43,14 @@ public class BigFilesController {
     public RestResponse uploadchunk(@RequestParam("file") MultipartFile file,
                                     @RequestParam("fileMd5") String fileMd5,
                                     @RequestParam("chunk") int chunk) throws Exception {
+        //创建临时文件
+        File tempFile = File.createTempFile("minio", ".temp");
+        //将上传的文件拷贝到到临时文件
+        file.transferTo(tempFile);
+        //文件路径
+        String localFilePath = tempFile.getAbsolutePath();
+        return mediaFileService.uploadChunk(fileMd5,chunk,localFilePath);
 
-        return null;
     }
 
     @ApiOperation(value = "合并文件")
